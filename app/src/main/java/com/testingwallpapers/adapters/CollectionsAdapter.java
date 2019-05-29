@@ -18,9 +18,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by sontbv on 12/6/17.
- */
+
 
 public class CollectionsAdapter extends BaseAdapter {
 
@@ -58,14 +56,14 @@ public class CollectionsAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         ButterKnife.bind(this, view);
-        Collection collection = (Collection) collections.get(i);
+        Collection collection = collections.get(i);
 
         if(collection.getTitle() != null){
             Log.d("Title", collection.getTitle());
             holder.title.setText(collection.getTitle());
 
         }
-        holder.totalPhotos.setText(String.valueOf(collection.getTotalPhotos()) + " photos");
+        holder.totalPhotos.setText(collection.getTotalPhotos() + " photos");
         GlideApp
                 .with(context)
                 .load(collection.getCoverPhoto().getUrl().getRegular())

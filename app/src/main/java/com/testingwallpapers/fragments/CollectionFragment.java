@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
 import com.testingwallpapers.R;
 import com.testingwallpapers.Webservices.ApiInterface;
 import com.testingwallpapers.Webservices.ServiceGenerator;
@@ -32,11 +31,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//import com.example.sontbv.wallpaper.Adapters.GlideApp;
-
-/**
- * Created by sontbv on 12/6/17.
- */
 
 public class CollectionFragment extends Fragment {
     private final String TAG = CollectionFragment.class.getSimpleName();
@@ -58,6 +52,7 @@ public class CollectionFragment extends Fragment {
 
     private PhotosAdapter photosAdatper;
     private List<Photo> photos = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,7 +64,10 @@ public class CollectionFragment extends Fragment {
         photosAdatper = new PhotosAdapter(getActivity(), photos);
         photosRecyclerView.setAdapter(photosAdatper);
         Bundle bundle = getArguments();
-        int collectionId = bundle.getInt("collectionId");
+        int collectionId = 0;
+        if (bundle != null) {
+            collectionId = bundle.getInt("collectionId");
+        }
 
         showProgressBar(true);
         getInformationOfCollection(collectionId);
@@ -77,13 +75,13 @@ public class CollectionFragment extends Fragment {
         return view;
     }
 
-    private void getInformationOfCollection(final int collectionId){
+    private void getInformationOfCollection(final int collectionId) {
         ApiInterface apiInterface = ServiceGenerator.createService(ApiInterface.class);
         Call<Collection> call = apiInterface.getInformationOfCollection(collectionId);
         call.enqueue(new Callback<Collection>() {
             @Override
             public void onResponse(Call<Collection> call, Response<Collection> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     Collection collection = response.body();
                     title.setText(collection.getTitle());
                     description.setText(collection.getDescription());
@@ -93,10 +91,12 @@ public class CollectionFragment extends Fragment {
                             .load(collection.getUser().getProfileImage().getSmall())
                             .into(userAvatar);
 
-                }else{
+
+                } else {
                     Log.d(TAG, "Fail" + response.message());
                 }
             }
+
             @Override
             public void onFailure(Call<Collection> call, Throwable t) {
                 Log.d(TAG, "Fail: " + t.getMessage());
@@ -105,42 +105,44 @@ public class CollectionFragment extends Fragment {
     }
 
 
-    private void getPhotosOfCollection(int collectionId){
-//        ApiInterface apiInterface = ServiceGenerator.createService(ApiInterface.class);
-//       Call<List<Photo>> call = apiInterface.getInformationOfCollection(collectionId);
-//        call.enqueue(new Callback<List<Photo>>() {
-//            @Override
-//            public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
-//                if(response.isSuccessful()){
-//                    Log.d(TAG, "Loading successfully, size: " + response.body().size());
-//                    for(Photo photo: response.body()){
-//                        photos.add(photo);
-//                        Log.d(TAG, photo.getUrl().getFull());
-//                    }
-//                    photosAdatper.notifyDataSetChanged();
-//
-//                }else{
-//                    Log.d(TAG, "Fail" + response.message());
-//                }
-//                showProgressBar(false);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Photo>> call, Throwable t) {
-//                Log.d(TAG, "Fail: " + t.getMessage());
-//                showProgressBar(false);
-//            }
-//        });
+    private void getPhotosOfCollection(int collectionId) {
+        ApiInterface apiInterface = ServiceGenerator.createService(ApiInterface.class);
+        Call<List<Photo>> call = apiInterface.getPhotosOfCollection(collectionId, "30");
+        call.enqueue(new Callback<List<Photo>>() {
+            @Override
+            public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "Loading successful, size: " + response.body().size());
+                    for (Photo photo : response.body()) {
+                        photos.add(photo);
+                        Log.d(TAG, photo.getUrl().getFull());
+                    }
+                    photosAdatper.notifyDataSetChanged();
+
+                } else {
+                    Log.d(TAG, "Fail" + response.message());
+                }
+                showProgressBar(false);
+            }
+
+            @Override
+            public void onFailure(Call<List<Photo>> call, Throwable t) {
+                Log.d(TAG, "Fail: " + t.getMessage());
+                showProgressBar(false);
+            }
+        });
     }
-    private void showProgressBar(boolean isShow){
-        if(isShow){
+
+    private void showProgressBar(boolean isShow) {
+        if (isShow) {
             progressBar.setVisibility(View.VISIBLE);
             photosRecyclerView.setVisibility(View.GONE);
-        }else{
+        } else {
             progressBar.setVisibility(View.GONE);
             photosRecyclerView.setVisibility(View.VISIBLE);
         }
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

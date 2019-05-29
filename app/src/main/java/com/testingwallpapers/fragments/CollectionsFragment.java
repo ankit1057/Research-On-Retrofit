@@ -1,7 +1,6 @@
 package com.testingwallpapers.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -75,12 +74,12 @@ public class CollectionsFragment extends Fragment {
         bundle.putInt("collectionId", collection.getId());
         CollectionFragment collectionFragment = new CollectionFragment();
         collectionFragment.setArguments(bundle);
-       // Functions.changeMainFragmentWithBack(getActivity(), collectionFragment);
+        Functions.changeFragmentWithBack(getActivity(), collectionFragment);
     }
 
     private void getCollections(){
         ApiInterface apiInterface = ServiceGenerator.createService(ApiInterface.class);
-        Call<List<Collection>> call = apiInterface.getCollections();
+        Call<List<Collection>> call = apiInterface.getCollections("30");
         call.enqueue(new Callback<List<Collection>>() {
             @Override
             public void onResponse(Call<List<Collection>> call, Response<List<Collection>> response) {

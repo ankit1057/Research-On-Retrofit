@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.jsibbold.zoomage.ZoomageView
+        android:id="@+id/activity_fullscreen_photo_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/placeholder"
+        app:zoomage_maxScale="10"
+        app:zoomage_minScale="1"
+        app:zoomage_translatable="true"
+        app:zoomage_zoomable="true" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/transparent_color"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/activity_fullscreen_photo_user_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/activity_fullscreen_photo_username"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:text="Beautifully Mountain"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/activity_fullscreen_photo_fab_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="58dp"
+        app:menu_colorNormal="@color/colorAccent"
+        app:menu_colorPressed="@color/colorAccent">
+
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/activity_fullscreen_photo_fab_set_wallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_wallpaper_black_24dp"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_label="@string/wallpaper"
+            app:fab_size="mini" />
+    </com.github.clans.fab.FloatingActionMenu>
+
+</RelativeLayout>

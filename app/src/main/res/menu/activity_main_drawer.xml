@@ -12,10 +12,7 @@
             android:id="@+id/nav_collections"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Collections" />
-        <item
-            android:id="@+id/nav_favorites"
-            android:icon="@drawable/ic_favorite"
-            android:title="Favorites" />
+
 
     </group>
 
